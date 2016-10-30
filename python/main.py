@@ -1,4 +1,4 @@
-import os
+import os,sys
 
 
 
@@ -41,13 +41,9 @@ def cloudAutomation(aplicationName , ambient , instance_type, number,action):
      if action == "destroy":
         stopInfra(aplicationName,ambient,instance_type,number)
 
-     else:
-         print("Acao invalida")
-
-
 def startInfra(aplicationName , ambient , instance_type, number):
     print("Start Wordpress")
-    make_packer_wordpress = os.popen("cd ../terraform/wordpress/ && make projectname=""" + aplicationName+ " " + "instancetype="+instance_type + " " + "qnt="+number).readlines()
+    make_packer_wordpress = os.popen("cd ../terraform/wordpress/ && make projectname=""" + aplicationName+ " " + "instancetype="+instance_type + " " + "qnt="+number +" " + "enviroment="+ambient ).readlines()
     # print(make_packer_wordpress)
 
     print("Start MYSQL")
@@ -55,16 +51,20 @@ def startInfra(aplicationName , ambient , instance_type, number):
     # print(make_packer_mysql)
 
 
-def stopInfra(aplicationName , ambient , instance_type, number,instances):
-    print("Start Wordpress")
+def stopInfra(aplicationName , ambient , instance_type, number):
+    print("Stop Wordpress")
     make_packer_wordpress = os.popen(
-        "cd ../terraform/wordpress/ && make destroy projectname=""" + aplicationName + " " + "instancetype=" + instance_type + " " + "qnt=" + number).readlines()
+        "cd ../terraform/wordpress/ && make destroy projectname=""" + aplicationName + " " + "instancetype=" + instance_type + " " + "qnt=" + number +" " + "enviroment="+ambient ).readlines()
     print(make_packer_wordpress)
 
-    print("Start MYSQL")
+    print("Stop MYSQL")
     make_packer_mysql = os.popen("cd ../terraform/mysql-wordpress/ && make destroy").readlines()
     print(make_packer_mysql)
 
 
+def main(aplicationName , ambient , instance_type, number,action):
+    # print(aplicationName , ambient , instance_type, number,action)
+    cloudAutomation(aplicationName , ambient , instance_type, number,action)
 
-cloudAutomation("testedeverdade","dev","t2.micro","2","create")
+if __name__ == "__main__":
+   main(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5])

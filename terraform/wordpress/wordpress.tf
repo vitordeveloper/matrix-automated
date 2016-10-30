@@ -9,8 +9,7 @@ variable "shared_credentials_file" { }
 variable "instance_type" { }
 variable "keypair" { }
 variable "count" { }
-variable "acess_key" { }
-variable "secret_key" { }
+
 
 
 
@@ -18,8 +17,6 @@ variable "secret_key" { }
  * AWS Provider
  */
 provider "aws" {
-    access_key = "${var.acess_key}"
-    secret_key = "${var.secret_key}"
     region = "${var.region}"
     shared_credentials_file  = "${var.shared_credentials_file}"
 }
@@ -184,9 +181,6 @@ output "instance_ids" {
 }
 
 
-output "instance_ids" {
-    value = "${join("  ",aws_instance.app.*.id)}"
-}
 //output "subnet_app_c_id" {
 //    value = "${var.subnet_a_app_id}"
 //}

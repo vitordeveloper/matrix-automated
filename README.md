@@ -22,7 +22,14 @@ O resultado desse script deverá ser a url do loadbalancer apenas.
         AWS_ACCESS_KEY_ID
         AWS_ACCESS_SECRET_KEY_ID
    
-        
+# Start do Ambiente:         
+
+´´´sh
+Na pasta Python executar o seguinte comando ex. 
+
+ python main.py wordpress dev t2.micro 4 create
+
+´´´
 
 #Gerar as Amis:
 Na Pasta Terraform(mysqlwordpress / wordpress) executar o seguinte commando: 

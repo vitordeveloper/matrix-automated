@@ -2,7 +2,6 @@
 
 REGION?=us-east-1
 AWS_DEFAULT_REGION=${REGION}
-aws_access_key
 ENVIRONMENT=${enviroment}
 PROJECT_NAME=${projectname}
 TYPE=${instancetype}
