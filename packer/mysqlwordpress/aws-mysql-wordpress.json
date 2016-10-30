@@ -1,0 +1,46 @@
+{
+    "variables": {
+        "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+        "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+        "aws_vpc_id": "",
+        "aws_subnet_id": "",
+        "app_version": "",
+        "aws_ami": "",
+        "docker_login_password": "",
+        "aws_region": "{{env `AWS_DEFAULT_REGION`}}",
+        "ssh_username": "ec2-user",
+        "ami_label": "mysqlwordpress"
+    },
+    "builders": [{
+        "type": "amazon-ebs",
+        "communicator": "ssh",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "region": "{{ user `aws_region`}}",
+        "source_ami": "{{ user `aws_ami`}}",
+        "instance_type": "t2.micro",
+        "ssh_username": "{{user `ssh_username`}}",
+        "ami_name": "{{user `ami_label`}}-{{user `app_version`}}",
+        "ami_description": "mysql Wordpress AMI",
+        "run_tags": {
+            "ami-create": "mysqlwordpress ami"
+        },
+        "tags": {
+            "Name": "mysqlwordpress",
+            "project": "desafio-b2w",
+            "version": "{{user `app_version`}}",
+            "created_at": "{{isotime \"200601021504\"}}"
+        }
+    }],
+    "provisioners": [
+        {
+            "type": "ansible",
+            "playbook_file": "../../ansible/mysql-wordpress-aws.yml",
+            "extra_arguments": [
+            "--extra-vars", "docker_login_password={{user `docker_login_password`}}"
+             ],
+                "user": "ec2-user"
+        }
+
+    ]
+}

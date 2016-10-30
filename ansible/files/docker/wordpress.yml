@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+   wordpress:
+     image: wordpress:latest
+     ports:
+       - "8000:80"
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: dbwordpress.mysqldb:3306
+       WORDPRESS_DB_PASSWORD: wordpress
