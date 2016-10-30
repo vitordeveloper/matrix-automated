@@ -2,18 +2,8 @@
 - hosts: all
   become: yes
   vars:
-#    - docker_login_password: ""
-#    - centrify_url: "http://edge.centrify.com/products/centrify-suite/2016-update-1/installers"
-#    - centrify_package: "centrify-suite-2016.1-rhel4-x86_64.tgz"
 
   tasks:
-    - name: Update /etc/hosts
-      lineinfile:
-        dest: /etc/hosts
-        line: '{{ item }}'
-      with_items:
-        - '10.22.4.10    RDS'
-
     - name: Install Docker
       yum: name=docker state=latest
       tags: docker
@@ -36,22 +26,5 @@
 
     - name: Start Compose
       command: /usr/local/bin/docker-compose -f /usr/bin/wordpress.yml up -d
-
-#    - name: install krb5-workstation
-#      yum: name=krb5-workstation state=latest
-#
-#    - name: enalbe password login
-#      lineinfile:
-#        dest: /etc/ssh/sshd_config
-#        regexp: "^PasswordAuthentication"
-#        line: "PasswordAuthentication yes"
-#        state: present
-#
-#    - name: enalbe pam
-#      lineinfile:
-#        dest: /etc/ssh/sshd_config
-#        regexp: "^UsePam"
-#        line: "UsePam yes"
-#        state: present
 
 

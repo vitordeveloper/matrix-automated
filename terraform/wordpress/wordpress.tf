@@ -1,13 +1,16 @@
 /*
  * Variables
  */
-variable "aws_wordpress_ami" { }
+
+variable "aws_ami" { }
 variable "region" { }
 variable "project_name2" { }
 variable "shared_credentials_file" { }
-variable "instance_type" {default = "t2.micro"}
+variable "instance_type" { }
 variable "keypair" { }
 variable "count" { }
+variable "acess_key" { }
+variable "secret_key" { }
 
 
 
@@ -15,6 +18,8 @@ variable "count" { }
  * AWS Provider
  */
 provider "aws" {
+    access_key = "${var.acess_key}"
+    secret_key = "${var.secret_key}"
     region = "${var.region}"
     shared_credentials_file  = "${var.shared_credentials_file}"
 }
@@ -65,7 +70,7 @@ EOF
  */
 resource "aws_instance" "app" {
     count = "${var.count}"
-    ami = "${var.aws_wordpress_ami}"
+    ami = "${var.aws_ami}"
     instance_type = "${var.instance_type}"
     key_name = "${var.project_name2}"
     vpc_security_group_ids  =["${aws_security_group.sg_app.id}"]
@@ -82,7 +87,7 @@ resource "aws_instance" "app" {
 }
 
 resource "aws_key_pair" "deployer" {
-  key_name = "wordpress"
+  key_name = "${var.project_name2}"
   public_key = "${var.keypair}"
 }
 
@@ -178,6 +183,10 @@ output "instance_ids" {
     value = "${join("  ",aws_instance.app.*.id)}"
 }
 
+
+output "instance_ids" {
+    value = "${join("  ",aws_instance.app.*.id)}"
+}
 //output "subnet_app_c_id" {
 //    value = "${var.subnet_a_app_id}"
 //}

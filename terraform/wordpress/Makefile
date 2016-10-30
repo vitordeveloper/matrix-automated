@@ -2,10 +2,12 @@
 
 REGION?=us-east-1
 AWS_DEFAULT_REGION=${REGION}
-ENVIRONMENT=dev
-PROJECT_NAME=wordpress
+aws_access_key
+ENVIRONMENT=${enviroment}
+PROJECT_NAME=${projectname}
+TYPE=${instancetype}
 VERSION=$(shell cat ../../packer/wordpress/VERSION)
-KEYPAIR=$(shell cat keys/wordpress.pub)
+KEYPAIR=$(shell cat keys/${PROJECT_NAME}.pub)
 COUNT=${qnt}
 PROJECT_AMI=$(shell aws ec2 describe-images --owners self --filters "Name=tag:Name,Values=${PROJECT_NAME}" "Name=tag:version,Values=${VERSION}" --query 'Images[].[ImageId]' --output text | grep -m5 "ami-")
 
@@ -26,16 +28,16 @@ config:
 plan:
 	test -s .config || ( echo "Running make config first..."; make config; )
 	terraform get -update
-	terraform plan -var "aws_${PROJECT_NAME}_ami=${PROJECT_AMI}" -var "project_name2=${PROJECT_NAME}" -var "count=${COUNT}" -var "keypair=${KEYPAIR}"   -var "region=${REGION}" -var "shared_credentials_file=${HOME}/.aws/creds-terraform-${ENVIRONMENT}" -var "instance_type=t2.micro"
+	terraform plan -var "aws_ami=${PROJECT_AMI}" -var "project_name2=${PROJECT_NAME}" -var "count=${COUNT}" -var "instance_type=${TYPE}" -var "keypair=${KEYPAIR}"   -var "region=${REGION}" -var "shared_credentials_file=${HOME}/.aws/creds-terraform-${ENVIRONMENT}"
 
 apply:
 	##if [ "$(ENVIRONMENT)" == "dev" ]; then \
 	##    at now + 50 min -f ./autodestroy.sh; \
 	##fi
-	terraform apply -var "aws_${PROJECT_NAME}_ami=${PROJECT_AMI}" -var "project_name2=${PROJECT_NAME}" -var "count=${COUNT}" -var "keypair=${KEYPAIR}"  -var "region=${REGION}" -var "shared_credentials_file=${HOME}/.aws/creds-terraform-${ENVIRONMENT}" -var "instance_type=t2.micro"
+	terraform apply -var "aws_ami=${PROJECT_AMI}" -var "project_name2=${PROJECT_NAME}" -var "count=${COUNT}" -var "instance_type=${TYPE}" -var "keypair=${KEYPAIR}"  -var "region=${REGION}" -var "shared_credentials_file=${HOME}/.aws/creds-terraform-${ENVIRONMENT}"
 
 destroy:
-	terraform destroy -var "aws_${PROJECT_NAME}_ami=$(PROJECT_AMI)" -var "project_name2=${PROJECT_NAME}" -var "count=${COUNT}" -var "keypair=${KEYPAIR}"  -var "region=${REGION}" -var "shared_credentials_file=${HOME}/.aws/creds-terraform-${ENVIRONMENT}" -var "instance_type=t2.micro" -force
+	terraform destroy -var "aws_ami=$(PROJECT_AMI)" -var "project_name2=${PROJECT_NAME}" -var "count=${COUNT}" -var "instance_type=${TYPE}" -var "keypair=${KEYPAIR}"  -var "region=${REGION}" -var "shared_credentials_file=${HOME}/.aws/creds-terraform-${ENVIRONMENT}"  -force
 	test -s .config && ( echo "Removing .config"; rm .config; ) || echo "No .config"
 	rm -f /tmp/vpc.tfstate
 

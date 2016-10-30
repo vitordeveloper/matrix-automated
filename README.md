@@ -10,3 +10,29 @@ Por exemplo: ./cloud-automation wordpresstest dev t2.micro 3 create
 Os tipos de ação são somente create and destroy. 
  
 O resultado desse script deverá ser a url do loadbalancer apenas.
+
+## pre requesitos:
+
+    * Python
+    * Packer
+    * Terraform
+    * Ansible
+    * Variaveis de ambiente: 
+        AWS_DEFAULT_REGION
+        AWS_ACCESS_KEY_ID
+        AWS_ACCESS_SECRET_KEY_ID
+   
+        
+
+#Gerar as Amis:
+Na Pasta Terraform(mysqlwordpress / wordpress) executar o seguinte commando: 
+ 
+  make projectname=wordpresstest  enviroment=dev instancetype=t2.micro 
+  
+  
+#Start Infra estrutura:
+
+Na Pasta Terraform(mysqlwordpress / wordpress): 
+make projectname=wordpresstest  enviroment=dev instancetype=t2.micro qnt=3
+
+

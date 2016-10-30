@@ -5,11 +5,12 @@
         "aws_vpc_id": "",
         "aws_subnet_id": "",
         "app_version": "",
+        "project_name": "",
         "aws_ami": "",
         "docker_login_password": "",
         "aws_region": "{{env `AWS_DEFAULT_REGION`}}",
         "ssh_username": "ec2-user",
-        "ami_label": "wordpress"
+        "ami_label": "{{user `project_name`}}"
     },
     "builders": [{
         "type": "amazon-ebs",
@@ -20,13 +21,13 @@
         "source_ami": "{{ user `aws_ami`}}",
         "instance_type": "t2.micro",
         "ssh_username": "{{user `ssh_username`}}",
-        "ami_name": "{{user `ami_label`}}-{{user `app_version`}}",
+        "ami_name": "{{user `project_name`}}-{{user `app_version`}}",
         "ami_description": "Wordpress AMI",
         "run_tags": {
             "ami-create": "wordpress ami"
         },
         "tags": {
-            "Name": "wordpress",
+            "Name": "{{user `project_name`}}",
             "project": "desafio-b2w",
             "version": "{{user `app_version`}}",
             "created_at": "{{isotime \"200601021504\"}}"
