@@ -38,3 +38,7 @@ No diretório terraform (mysqlwordpress / wordpress):
  ```sh
 make projectname=wordpresstest  enviroment=dev instancetype=t2.micro qnt=3
 ```
+
+
+Arquitetura: 
+![infra-aws.png]()
