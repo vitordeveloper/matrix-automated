@@ -21,7 +21,8 @@ No diretório python executar o seguinte comando composto por 5 parâmetros: nom
 ```sh
 python main.py wordpress dev t2.micro 4 create
 ```
-
+Após o start será aberta uma pagina no browser para que seja realizada a instalação do wordpress. 
+Após sua instalação já será possivel a utilização do elb.
 
 ## Execução Standalone
 
