@@ -41,4 +41,4 @@ make projectname=wordpresstest  enviroment=dev instancetype=t2.micro qnt=3
 
 
 Arquitetura: 
-![infra-aws.png]()
+![infra-aws.png](matrix-automated/infra-aws.png)
