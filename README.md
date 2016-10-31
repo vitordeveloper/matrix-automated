@@ -39,6 +39,7 @@ No diretório terraform (mysqlwordpress / wordpress):
 make projectname=wordpresstest  enviroment=dev instancetype=t2.micro qnt=3
 ```
 
+##Arquitetura: 
 
-Arquitetura: 
+
 ![infra-aws.png](https://github.com/vitordeveloper/matrix-automated/blob/master/infra-aws.png)
