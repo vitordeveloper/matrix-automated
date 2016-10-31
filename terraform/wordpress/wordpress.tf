@@ -148,9 +148,9 @@ resource "aws_elb" "loadbalancerwordpress" {
 /*
  * Output
  */
-output "region" {
+/*output "region" {
     value = "${var.region}"
-}
+}*/
 
 //output "app_sg_id" {
 //    value = "${aws_security_group.sg_app.id}"
@@ -160,13 +160,19 @@ output "region" {
 //    value = "${module.instances.instances_ips}"
 //}
 
+output "instances_ips" {
+    value = "${join("  ",aws_instance.app.*.public_ip)}"
+}
+
+output "loadbalancer_dns" {
+    value = "${join("  ",aws_elb.loadbalancerwordpress.*.dns_name)}"
+}
+
+/*
 output "instance_type" {
     value = "${var.instance_type}"
 }
 
-output "instances_ips" {
-    value = "${join("  ",aws_instance.app.*.private_ip)}"
-}
 
 output "vpc_ids" {
     value = "${join("  ",aws_security_group.sg_app.*.vpc_id)}"
@@ -180,6 +186,7 @@ output "instance_ids" {
     value = "${join("  ",aws_instance.app.*.id)}"
 }
 
+*/
 
 //output "subnet_app_c_id" {
 //    value = "${var.subnet_a_app_id}"
